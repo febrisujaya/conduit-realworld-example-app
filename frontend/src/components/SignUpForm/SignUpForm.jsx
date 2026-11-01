@@ -55,6 +55,7 @@ function SignUpForm({ onError }) {
         placeholder="Password"
         value={password}
         handler={inputHandler}
+        minLength="5"
       ></FormFieldset>
       <button className="btn btn-lg btn-primary pull-xs-right">Sign up</button>
     </form>
