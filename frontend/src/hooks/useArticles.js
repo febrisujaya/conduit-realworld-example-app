@@ -13,6 +13,7 @@ function useArticles({ location, tabName, tagName, username }) {
   useEffect(() => {
     if (!headers && tabName === "feed") return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
 
     getArticles({ headers, location, tabName, tagName, username })

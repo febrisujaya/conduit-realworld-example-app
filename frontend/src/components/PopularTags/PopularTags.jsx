@@ -4,11 +4,9 @@ import TagButton from "./TagButton";
 
 function PopularTags() {
   const [tags, setTags] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-
     getTags()
       .then(setTags)
       .catch(console.error)
