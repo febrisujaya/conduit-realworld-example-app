@@ -1,21 +1,28 @@
 "use strict";
 
+const { User } = require("../models");
+const { bcryptHash } = require("../helper/bcrypt");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const users = Array(5)
-      .fill(null)
-      .map((_, index) => ({
-        username: `exampleUser${index + 1}`,
-        email: `example${index + 1}@mail.com`,
-        password: `examplePwd${index + 1}`,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }));
+    for (let index = 1; index <= 5; index++) {
+      const email = `example${index}@mail.com`;
 
-    await queryInterface.bulkInsert("Users", users, {});
+      const existingUser = await User.findOne({
+        where: { email },
+      });
+
+      if (!existingUser) {
+        await User.create({
+          username: `exampleUser${index}`,
+          email,
+          password: await bcryptHash(`examplePwd${index}`),
+        });
+      }
+    }
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Users", null, {});
+    console.log("Seeder Users tidak melakukan penghapusan otomatis.");
   },
 };
