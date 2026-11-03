@@ -1,5 +1,4 @@
 services:
-  # Database PostgreSQL
   db:
     image: postgres:16-alpine
     container_name: conduit-db
@@ -16,16 +15,14 @@ services:
       timeout: 5s
       retries: 10
 
-  # Backend Express
   backend:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
+    image: febrisujaya/conduit-backend:latest
     container_name: conduit-backend
     restart: unless-stopped
     environment:
       NODE_ENV: development
       PORT: 3001
+      JWT_KEY: ${JWT_KEY}
       DEV_DB_USERNAME: conduit_user
       DEV_DB_PASSWORD: ${DB_PASSWORD}
       DEV_DB_NAME: conduit_development
@@ -38,11 +35,8 @@ services:
     ports:
       - "3001:3001"
 
-  # Frontend React + Nginx
   frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
+    image: febrisujaya/conduit-frontend:latest
     container_name: conduit-frontend
     restart: unless-stopped
     depends_on:
